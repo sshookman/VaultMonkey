@@ -1,12 +1,9 @@
 package codepoet.vaultmonkey;
 
-import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -16,8 +13,8 @@ public class DataService<D> {
 
 	private static final Logger LOGGER = Logger.getLogger(DataService.class.getName());
 
-	private Class<D> clazz;
 	private String tableName;
+	private SqliteObjectMapper<D> mapper;
 	private final Connection connection;
 
 	public DataService(final Class<D> clazz, final Connection connection) {
@@ -25,8 +22,8 @@ public class DataService<D> {
 			throw new RuntimeException("Class Must Be @SqliteObject");
 		}
 
-		this.clazz = clazz;
 		this.tableName = clazz.getAnnotation(SqliteObject.class).table();
+		this.mapper = new SqliteObjectMapper<>(clazz);
 		this.connection = connection;
 	}
 
@@ -50,7 +47,7 @@ public class DataService<D> {
 			ResultSet results = statement.executeQuery(query);
 			while (results.next()) {
 				@SuppressWarnings("unchecked")
-				D dataObject = map(results);
+				D dataObject = mapper.mapResultSetToObject(results);
 				dataObjects.add(dataObject);
 			}
 			results.close();
@@ -94,7 +91,7 @@ public class DataService<D> {
 		}
 
 		String query = new QueryBuilder.InsertQuery(tableName)
-				.value(toMap(dataObject))
+				.value(mapper.mapObjectToMap(dataObject))
 				.build();
 
 		return executeUpdate(query);
@@ -107,7 +104,7 @@ public class DataService<D> {
 
 		String idString = rowId.toString();
 		String query = new QueryBuilder.UpdateQuery(tableName)
-				.set(toMap(dataObject))
+				.set(mapper.mapObjectToMap(dataObject))
 				.whereEquals("id", idString)
 				.build();
 
@@ -125,53 +122,5 @@ public class DataService<D> {
 				.build();
 
 		return executeUpdate(query);
-	}
-
-	public D map(ResultSet results) throws Exception {
-		D dataObject = clazz.newInstance();
-
-		Field[] fields = clazz.getDeclaredFields();
-		for (Field field : fields) {
-			if (field.isAnnotationPresent(SqliteColumn.class)) {
-				field.setAccessible(true);
-				field.set(dataObject, getValue(field, results));
-			}
-		}
-
-		return dataObject;
-	}
-
-	public static Object getValue(Field field, ResultSet results) throws SQLException {
-		String fieldName = field.getAnnotation(SqliteColumn.class).name();
-		if (field.getType().isAssignableFrom(Integer.class)) {
-			return results.getInt(fieldName);
-		} else if (field.getType().isAssignableFrom(String.class)) {
-			return results.getString(fieldName);
-		} else if (field.getType().isAssignableFrom(Boolean.class)) {
-			return results.getBoolean(fieldName);
-		} else if (field.getType().isAssignableFrom(Double.class)) {
-			return results.getDouble(fieldName);
-		} else if (field.getType().isAssignableFrom(Long.class)) {
-			return results.getLong(fieldName);
-		}
-
-		return null;
-	}
-
-	public Map<String, String> toMap(D dataObject) throws Exception {
-		Map<String, String> dataMap = new HashMap<>();
-
-		Field[] fields = clazz.getDeclaredFields();
-		for (Field field : fields) {
-			if (field.isAnnotationPresent(SqliteColumn.class)) {
-				field.setAccessible(true);
-				String fieldName = field.getAnnotation(SqliteColumn.class).name();
-				String key = fieldName.isEmpty() ? field.getName() : fieldName;
-				Object value = field.get(dataObject);
-				dataMap.put(key, value != null ? value.toString() : "NULL");
-			}
-		}
-
-		return dataMap;
 	}
 }
