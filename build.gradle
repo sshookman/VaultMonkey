@@ -1,0 +1,29 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+}
+
+apply plugin: 'application'
+apply plugin: 'java'
+apply plugin: 'jacoco'
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
+
+jar {
+	baseName = 'vaultmonkey'
+	version = '0.0.1-SNAPSHOT'
+}
+
+mainClassName = "codepoet.vaultmonkey.Main"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
