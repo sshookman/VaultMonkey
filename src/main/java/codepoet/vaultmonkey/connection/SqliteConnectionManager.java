@@ -7,9 +7,9 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ConnectionManager {
+public class SqliteConnectionManager {
 
-	private static final Logger LOGGER = Logger.getLogger(ConnectionManager.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(SqliteConnectionManager.class.getName());
 
 	public static Connection establishConnection(final String dbFile) throws Exception {
 		try {

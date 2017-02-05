@@ -10,15 +10,15 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DataService<D> {
+public class SqliteDataService<D> {
 
-	private static final Logger LOGGER = Logger.getLogger(DataService.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(SqliteDataService.class.getName());
 
 	private String tableName;
 	private SqliteObjectMapper<D> mapper;
 	private final Connection connection;
 
-	public DataService(final Class<D> clazz, final Connection connection) {
+	public SqliteDataService(final Class<D> clazz, final Connection connection) {
 		if (!clazz.isAnnotationPresent(SqliteObject.class)) {
 			throw new RuntimeException("Class Must Be @SqliteObject");
 		}
