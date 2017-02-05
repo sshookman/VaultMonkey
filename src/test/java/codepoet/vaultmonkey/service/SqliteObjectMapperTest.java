@@ -17,7 +17,7 @@ public class SqliteObjectMapperTest {
 	private static ResultSet mockResultSet;
 
 	@BeforeClass
-	public static void setup() throws SQLException {
+	public static void setUpClass() throws SQLException {
 
 		mapper = new SqliteObjectMapper<>(TestObject.class);
 		mockResultSet = mock(ResultSet.class);
