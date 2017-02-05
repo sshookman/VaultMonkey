@@ -1,4 +1,4 @@
-package codepoet.vaultmonkey;
+package codepoet.vaultmonkey.service;
 
 public class QueryConstants {
 

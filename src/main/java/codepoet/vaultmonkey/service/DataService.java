@@ -1,5 +1,6 @@
-package codepoet.vaultmonkey;
+package codepoet.vaultmonkey.service;
 
+import codepoet.vaultmonkey.annotations.SqliteObject;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;

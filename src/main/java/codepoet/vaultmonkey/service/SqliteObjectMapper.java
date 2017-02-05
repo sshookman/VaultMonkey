@@ -1,5 +1,6 @@
-package codepoet.vaultmonkey;
+package codepoet.vaultmonkey.service;
 
+import codepoet.vaultmonkey.annotations.SqliteColumn;
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,32 +32,32 @@ public class SqliteObjectMapper<D> {
 		return dataMap;
 	}
 
-	public D mapResultSetToObject(ResultSet results) throws Exception {
+	public D mapResultSetToObject(ResultSet result) throws Exception {
 		D dataObject = clazz.newInstance();
 
 		Field[] fields = clazz.getDeclaredFields();
 		for (Field field : fields) {
 			if (field.isAnnotationPresent(SqliteColumn.class)) {
 				field.setAccessible(true);
-				field.set(dataObject, getValue(field, results));
+				field.set(dataObject, getValue(field, result));
 			}
 		}
 
 		return dataObject;
 	}
 
-	public static Object getValue(Field field, ResultSet results) throws SQLException {
+	private static Object getValue(Field field, ResultSet result) throws SQLException {
 		String fieldName = field.getAnnotation(SqliteColumn.class).name();
 		if (field.getType().isAssignableFrom(Integer.class)) {
-			return results.getInt(fieldName);
+			return result.getInt(fieldName);
 		} else if (field.getType().isAssignableFrom(String.class)) {
-			return results.getString(fieldName);
+			return result.getString(fieldName);
 		} else if (field.getType().isAssignableFrom(Boolean.class)) {
-			return results.getBoolean(fieldName);
+			return result.getBoolean(fieldName);
 		} else if (field.getType().isAssignableFrom(Double.class)) {
-			return results.getDouble(fieldName);
+			return result.getDouble(fieldName);
 		} else if (field.getType().isAssignableFrom(Long.class)) {
-			return results.getLong(fieldName);
+			return result.getLong(fieldName);
 		}
 
 		return null;

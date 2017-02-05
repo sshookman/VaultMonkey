@@ -1,4 +1,8 @@
-package codepoet.vaultmonkey;
+package codepoet.vaultmonkey.service;
+
+
+import codepoet.vaultmonkey.annotations.SqliteColumn;
+import codepoet.vaultmonkey.annotations.SqliteObject;
 
 @SqliteObject(table = "test")
 public class TestObject {
@@ -11,6 +15,12 @@ public class TestObject {
 
 	@SqliteColumn
 	private Boolean good;
+
+	@SqliteColumn
+	private Double dubs;
+
+	@SqliteColumn
+	private Long loooooooong;
 
 	public Integer getId() {
 		return id;
@@ -34,5 +44,21 @@ public class TestObject {
 
 	public void setGood(Boolean good) {
 		this.good = good;
+	}
+
+	public Double getDubs() {
+		return dubs;
+	}
+
+	public void setDubs(Double dubs) {
+		this.dubs = dubs;
+	}
+
+	public Long getLoooooooong() {
+		return loooooooong;
+	}
+
+	public void setLoooooooong(Long loooooooong) {
+		this.loooooooong = loooooooong;
 	}
 }

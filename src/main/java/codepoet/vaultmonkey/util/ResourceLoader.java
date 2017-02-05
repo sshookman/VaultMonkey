@@ -1,4 +1,4 @@
-package codepoet.vaultmonkey;
+package codepoet.vaultmonkey.util;
 
 import java.io.File;
 import java.util.logging.Level;

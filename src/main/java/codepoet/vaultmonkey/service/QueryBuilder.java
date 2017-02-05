@@ -1,6 +1,6 @@
-package codepoet.vaultmonkey;
+package codepoet.vaultmonkey.service;
 
-import static codepoet.vaultmonkey.QueryConstants.*;
+import static codepoet.vaultmonkey.service.QueryConstants.*;
 import java.util.HashMap;
 import java.util.Map;
 
