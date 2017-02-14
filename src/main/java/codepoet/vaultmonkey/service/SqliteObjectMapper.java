@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class SqliteObjectMapper<D> {
 
-	private Class<D> clazz;
+	private final Class<D> clazz;
 
 	public SqliteObjectMapper(Class<D> clazz) {
 		this.clazz = clazz;

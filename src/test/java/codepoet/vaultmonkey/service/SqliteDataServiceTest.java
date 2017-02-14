@@ -43,7 +43,7 @@ public class SqliteDataServiceTest {
 	public void testCRUD() throws Exception {
 		testRead_Map_Empty();
 		testCreate();
-		testRead_Integer(); //Failing Here - Not finding record
+		testRead_Integer();
 		testUpdate();
 		testRead_Map();
 		testDelete();

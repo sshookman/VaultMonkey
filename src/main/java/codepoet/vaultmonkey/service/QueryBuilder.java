@@ -28,8 +28,8 @@ public class QueryBuilder {
 
 	public static class SelectQuery {
 
-		private String table;
-		private Map<String, String> conditions = new HashMap<String, String>();
+		private final String table;
+		private final Map<String, String> conditions = new HashMap<>();
 
 		public SelectQuery(String table) {
 			this.table = table;
@@ -55,12 +55,14 @@ public class QueryBuilder {
 
 	public static class InsertQuery {
 
-		private String table;
-		private StringBuilder fieldsBuilder = new StringBuilder();
-		private StringBuilder valuesBuilder = new StringBuilder();
+		private final String table;
+		private final StringBuilder fieldsBuilder;
+		private final StringBuilder valuesBuilder;
 
 		public InsertQuery(String table) {
 			this.table = table;
+			this.fieldsBuilder = new StringBuilder();
+			this.valuesBuilder = new StringBuilder();
 		}
 
 		public InsertQuery value(final String field, final String value) {
@@ -76,9 +78,9 @@ public class QueryBuilder {
 		}
 
 		public InsertQuery value(final Map<String, String> values) {
-			for (Map.Entry<String, String> entry : values.entrySet()) {
+			values.entrySet().stream().forEach((entry) -> {
 				value(entry.getKey(), entry.getValue());
-			}
+			});
 			return this;
 		}
 
@@ -96,9 +98,9 @@ public class QueryBuilder {
 
 	public static class UpdateQuery {
 
-		private String table;
-		private Map<String, String> conditions = new HashMap<String, String>();
-		private StringBuilder setBuilder = new StringBuilder();
+		private final String table;
+		private final Map<String, String> conditions = new HashMap<>();
+		private final StringBuilder setBuilder = new StringBuilder();
 
 		public UpdateQuery(String table) {
 			this.table = table;
@@ -121,9 +123,9 @@ public class QueryBuilder {
 		}
 
 		public UpdateQuery set(final Map<String, String> values) {
-			for (Map.Entry<String, String> entry : values.entrySet()) {
+			values.entrySet().stream().forEach((entry) -> {
 				set(entry.getKey(), entry.getValue());
-			}
+			});
 			return this;
 		}
 
@@ -140,11 +142,12 @@ public class QueryBuilder {
 
 	public static class DeleteQuery {
 
-		private String table;
-		private Map<String, String> conditions = new HashMap<String, String>();
+		private final String table;
+		private final Map<String, String> conditions;
 
 		public DeleteQuery(String table) {
 			this.table = table;
+			this.conditions = new HashMap<>();
 		}
 
 		public DeleteQuery whereEquals(final String field, final String value) {
