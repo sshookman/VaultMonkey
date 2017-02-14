@@ -44,4 +44,10 @@ public class SqliteConnectionUtilTest {
 		Connection memory = SqliteConnectionUtil.establishConnectionInMemory(PATH + "Test.sqlite");
 		assertNotNull(memory);
 	}
+
+	@Test
+	public void testEstablishConnection() throws Exception {
+		Connection memory = SqliteConnectionUtil.establishConnection(PATH + "Test.sqlite");
+		assertNotNull(memory);
+	}
 }

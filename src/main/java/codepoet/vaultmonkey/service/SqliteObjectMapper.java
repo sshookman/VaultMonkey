@@ -25,7 +25,7 @@ public class SqliteObjectMapper<D> {
 				String fieldName = field.getAnnotation(SqliteColumn.class).name();
 				String key = fieldName.isEmpty() ? field.getName() : fieldName;
 				Object value = field.get(dataObject);
-				dataMap.put(key, value != null ? value.toString() : "NULL");
+				dataMap.put(key, value != null ? mapValue(value) : "NULL");
 			}
 		}
 
@@ -46,8 +46,9 @@ public class SqliteObjectMapper<D> {
 		return dataObject;
 	}
 
-	private static Object getValue(Field field, ResultSet result) throws SQLException {
+	private Object getValue(Field field, ResultSet result) throws SQLException {
 		String fieldName = field.getAnnotation(SqliteColumn.class).name();
+		fieldName = fieldName.isEmpty() ? field.getName() : fieldName;
 		if (field.getType().isAssignableFrom(Integer.class)) {
 			return result.getInt(fieldName);
 		} else if (field.getType().isAssignableFrom(String.class)) {
@@ -61,5 +62,13 @@ public class SqliteObjectMapper<D> {
 		}
 
 		return null;
+	}
+
+	private String mapValue(Object value) {
+		if (value instanceof String || value instanceof Boolean) {
+			return "'" + value.toString() + "'";
+		}
+
+		return value.toString();
 	}
 }

@@ -42,8 +42,8 @@ public class SqliteObjectMapperTest {
 		Map<String, String> dataMap = mapper.mapObjectToMap(testObject);
 		assertNotNull(dataMap);
 		assertEquals("1", dataMap.get("id"));
-		assertEquals("HEY", dataMap.get("name"));
-		assertEquals("true", dataMap.get("good"));
+		assertEquals("'HEY'", dataMap.get("name"));
+		assertEquals("'true'", dataMap.get("good"));
 		assertEquals("12.34", dataMap.get("dubs"));
 		assertEquals("123456", dataMap.get("loooooooong"));
 	}
