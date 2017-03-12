@@ -24,8 +24,9 @@ pitest {
 }
 
 jar {
-	baseName = 'vaultmonkey'
-	version = '0.0.1-SNAPSHOT'
+	baseName = 'vault-monkey'
+	group = 'codepoet'
+	version = '1.0.0'
 }
 
 mainClassName = "codepoet.vaultmonkey.Main"
