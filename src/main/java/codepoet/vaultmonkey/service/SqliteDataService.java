@@ -1,6 +1,7 @@
 package codepoet.vaultmonkey.service;
 
 import codepoet.vaultmonkey.annotations.SqliteObject;
+import codepoet.vaultmonkey.exception.VaultMonkeyException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -20,7 +21,7 @@ public class SqliteDataService<D> {
 
 	public SqliteDataService(final Class<D> clazz, final Connection connection) {
 		if (!clazz.isAnnotationPresent(SqliteObject.class)) {
-			throw new RuntimeException("Class Must Be @SqliteObject");
+			throw new VaultMonkeyException("Class Must Be @SqliteObject");
 		}
 
 		this.tableName = clazz.getAnnotation(SqliteObject.class).table();

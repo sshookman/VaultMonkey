@@ -12,7 +12,7 @@ public class SqliteConnectionUtilTest {
 	private static final String PATH = "src/test/resources/library/";
 
 	@AfterClass
-	public static void teardown() {
+	public static void tearDown() {
 		File file = new File(PATH + "/Test.sqlite");
 		file.delete();
 	}

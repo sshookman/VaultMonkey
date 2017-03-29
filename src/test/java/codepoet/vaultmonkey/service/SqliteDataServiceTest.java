@@ -27,27 +27,27 @@ public class SqliteDataServiceTest {
 	private static SqliteDataService<TestObject> testDataService;
 
 	@Before
-	public void setup() throws Exception {
+	public void setUp() throws Exception {
 		connection = SqliteConnectionUtil.establishConnection(FILE);
 		init(connection, INIT_FILE);
 		testDataService = new SqliteDataService<>(TestObject.class, connection);
 	}
 
 	@AfterClass
-	public static void teardown() {
+	public static void tearDown() {
 		File file = new File(FILE);
 		file.delete();
 	}
 
 	@Test
 	public void testCRUD() throws Exception {
-		testRead_Map_Empty();
+		testReadMapEmpty();
 		testCreate();
-		testRead_Integer();
+		testReadInteger();
 		testUpdate();
-		testRead_Map();
+		testReadMap();
 		testDelete();
-		testRead_Map_Empty();
+		testReadMapEmpty();
 
 		//Test Errors
 		Integer noInt = null;
@@ -62,13 +62,13 @@ public class SqliteDataServiceTest {
 		assertFalse(testDataService.create(new TestObject()));
 	}
 
-	public void testRead_Map_Empty() {
+	public void testReadMapEmpty() {
 		List<TestObject> objects = testDataService.read(new HashMap<>());
 		assertNotNull(objects);
 		assertTrue(objects.isEmpty());
 	}
 
-	public void testRead_Map() {
+	public void testReadMap() {
 		List<TestObject> objects = testDataService.read(new HashMap<>());
 		assertNotNull(objects);
 		assertEquals(1, objects.size());
@@ -82,7 +82,7 @@ public class SqliteDataServiceTest {
 		assertEquals(Long.valueOf(654321), object.getLoooooooong());
 	}
 
-	public void testRead_Integer() {
+	public void testReadInteger() {
 		TestObject object = (TestObject) testDataService.read(1);
 		assertNotNull(object);
 		assertEquals(Integer.valueOf(1), object.getId());
