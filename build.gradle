@@ -4,6 +4,7 @@ buildscript {
 	}
 	dependencies {
 		classpath('info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.1.10')
+        classpath('pl.allegro.tech.build:axion-release-plugin:1.6.0')
 	}
 }
 
@@ -11,6 +12,15 @@ apply plugin: 'application'
 apply plugin: 'java'
 apply plugin: 'jacoco'
 apply plugin: 'info.solidsoft.pitest'
+apply plugin: 'pl.allegro.tech.build.axion-release'
+
+scmVersion {
+    tag {
+        prefix = 'vault-monkey'
+    }
+}
+
+project.version = scmVersion.version
 
 jacocoTestReport {
     reports {
@@ -26,7 +36,7 @@ pitest {
 jar {
 	baseName = 'vault-monkey'
 	group = 'codepoet'
-	version = '1.0.0'
+	version = scmVersion.version
 }
 
 mainClassName = "codepoet.vaultmonkey.Main"
